@@ -1,0 +1,108 @@
+@base_url = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OGZiNWFlODFhZWUzODQ3NjdkMzIxMiIsImlhdCI6MTczNzQ3NDExNywiZXhwIjoxNzM3NDc3NzE3fQ.pPc1o3OF8qzEaIUDGbYUu8jeFSWF3j0WibLeT65CCPc
+@token2 =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OGZiZTI4MTVlZDY5MmNiYzI0NzY4OCIsImlhdCI6MTczNzQ3MzYyNSwiZXhwIjoxNzM3NDc3MjI1fQ.ZvPESK4Hh99XQ56nLiQTgq_ZfUKTFVV24N-XsiZYueY
+@user_id=678fb5ae81aee384767d3212
+
+@blog_id=678fbab27ef6ea803a0cf941
+### Signup API
+@comment_id=678fbbf37ef6ea803a0cf94e
+
+### Signing up
+POST {{base_url}}/auth/signup
+Content-Type: application/json
+
+{
+  "name": "pk",
+  "email": "cs22b1096@iiitdm.ac.in",
+  "password": "Pratyek123@"
+}
+
+### Login API
+POST {{base_url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "cs22b1096@iiitdm.ac.in",
+  "password": "Pratyek123@"
+}
+
+###
+
+# After login, copy the returned JWT token and replace <JWT_TOKEN> below
+
+### Example of Protected Route: Fetch All Blogs
+GET {{base_url}}/blogs
+Authorization: Bearer {{token}}
+
+### 4. Fetch All Users (Admin Only)
+GET {{base_url}}/auth/users
+Authorization: Bearer {{token}}
+
+
+### 5. Update Role 
+PUT {{base_url}}/auth/update-role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": "{{user_id}}",
+  "newRole": "Admin"
+}
+
+
+### 6. Delete Account (Authenticated User)
+DELETE {{base_url}}/auth/delete
+Authorization: Bearer {{token}}
+
+### 7. Create a Blog (Admin Only)
+POST {{base_url}}/blogs
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "My First Blog",
+  "content": "This is the content of my first blog."
+}
+
+### 8. Assign Blog to Editor (Admin Only)
+PUT {{base_url}}/blogs/assign
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": "{{blog_id}}",
+  "editorId": "{{user_id}}"
+}
+
+### 9. Get All Blogs
+GET {{base_url}}/blogs
+Authorization: Bearer {{token}}
+
+### 10. Update a Blog (Editor or Admin)
+PUT {{base_url}}/blogs/{{blog_id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Updated Blog Title",
+  "content": "Updated blog content."
+}
+
+### 11. Add Comment to Blog
+POST {{base_url}}/comments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "blogId": "{{blog_id}}",
+  "content": "This is a comment on the blog."
+}
+
+### 12. Get Comments for a Blog
+GET {{base_url}}/comments/{{blog_id}}
+Authorization: Bearer {{token}}
+
+
+### 13. Delete a Comment (User who created it only)
+DELETE {{base_url}}/comments/{{comment_id}}
+Authorization: Bearer {{token}}
